@@ -20,14 +20,6 @@ router.get('/posts', function(req, res, next) {
   });
 });
 
-router.get('/posts/:post', function(req, res, next) {
-  req.post.populate('comments', function(err, post) {
-    if (err) { return next(err); }
-
-    res.json(post);
-  });
-});
-
 router.post('/posts', function(req, res, next) {
   var post = new Post(req.body);
 
@@ -58,6 +50,14 @@ router.put('/posts/:post/upvote', function(req, res, next) {
   });
 });
 
+router.get('/posts/:post', function(req, res, next) {
+  req.post.populate('comments', function(err, post) {
+    if (err) { return next(err); }
+
+    res.json(post);
+  });
+});
+
 router.post('/posts/:post/comments', function(req, res, next) {
   var comment = new Comment(req.body);
   comment.post = req.post;
@@ -69,7 +69,7 @@ router.post('/posts/:post/comments', function(req, res, next) {
     req.post.save(function(err, post) {
       if(err){ return next(err); }
 
-      res.json(comment);
+      res.json(post);
     });
   });
 });
