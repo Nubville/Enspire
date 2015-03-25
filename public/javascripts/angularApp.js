@@ -31,6 +31,9 @@ app.controller('PostsCtrl', ['$scope', 'posts', 'post', function($scope,posts,po
     });
     $scope.body = '';
   };
+  $scope.incrementUpvotes = function(comment){
+    posts.upvoteComment(post, comment);
+  };
 }])
 
 app.factory('posts',['$http', function($http){
@@ -70,7 +73,7 @@ app.factory('posts',['$http', function($http){
   o.upvoteComment = function(post, comment) {
     return $http.put('/posts/' + post._id + '/comments/'+ comment._id + '/upvote')
       .success(function(data){
-        comment.upvotes += 1;
+        comments.upvotes += 1;
     });
   };
 
